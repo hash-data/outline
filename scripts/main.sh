@@ -7,9 +7,21 @@
 MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-`openssl rand -hex 8`}
 MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-`openssl rand -hex 32`}
 OIDC_CLIENT_SECRET=${MINIO_SECRET_KEY:-`openssl rand -hex 28`}
-OUTLINE_SECRET_KEY=${OUTLINE_SECRET_KEY:-`openssl rand -hex 32`}
-OUTLINE_UTILS_SECRET=${OUTLINE_UTILS_SECRET:-`openssl rand -hex 32`}
+# OUTLINE_SECRET_KEY=${OUTLINE_SECRET_KEY:-`openssl rand -hex 32`}
+# OUTLINE_UTILS_SECRET=${OUTLINE_UTILS_SECRET:-`openssl rand -hex 32`}
 DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-`openssl rand -hex 32`}
+
+OUTLINE_SECRET_KEY=6ed5d1ae92d6015f9142d0fc0f7faf68740c35a46f97ffaf3afcac753ad72c58
+OUTLINE_UTILS_SECRET=63d408244f741e12bc8906e4fa9b164bd6ae470c2b2671d2da4e6ca3a3ed902b
+
+GOOGLE_CLIENT_ID=965042525260-cfjt4e2g8utepboqfuadf4fhv0jn6qeq.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+
+AWS_ACCESS_KEY_ID=AKIA55R6C26GKYGR2A47
+AWS_SECRET_ACCESS_KEY=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
+AWS_REGION=ap-south-1
+AWS_S3_UPLOAD_BUCKET_URL=https://outline-doc-aws-bucket.s3.ap-south-1.amazonaws.com
+
 
 function update_config_file {
     env_replace MINIO_ACCESS_KEY $MINIO_ACCESS_KEY config.sh
@@ -66,9 +78,13 @@ function create_outline_env_file {
     env_delete SLACK_KEY $env_file
     env_replace SLACK_MESSAGE_ACTIONS false $env_file
 
-    env_replace AWS_ACCESS_KEY_ID $MINIO_ACCESS_KEY $env_file
-    env_replace AWS_SECRET_ACCESS_KEY $MINIO_SECRET_KEY $env_file
-    env_replace AWS_S3_UPLOAD_BUCKET_URL $URL $env_file
+    env_replace GOOGLE_CLIENT_ID $GOOGLE_CLIENT_ID $env_file
+    env_replace GOOGLE_CLIENT_SECRET $GOOGLE_CLIENT_SECRET $env_file
+
+    env_replace AWS_ACCESS_KEY_ID $AWS_ACCESS_KEY_ID $env_file
+    env_replace AWS_SECRET_ACCESS_KEY $AWS_SECRET_ACCESS_KEY $env_file
+    env_replace AWS_REGION $AWS_REGION $env_file
+    env_replace AWS_S3_UPLOAD_BUCKET_URL $AWS_S3_UPLOAD_BUCKET_URL $env_file
 
     env_add PGSSLMODE disable $env_file
     env_add ALLOWED_DOMAINS "$ALLOWED_DOMAINS" $env_file
