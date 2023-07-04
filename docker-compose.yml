@@ -1,37 +1,29 @@
 version: "3"
 services:
-  wk-redis:
+  redis:
     image: redis:latest
     restart: always
     networks:
       - outlinewiki
-  wk-outline:
-    image: outlinewiki/outline:${OUTLINE_VERSION}
+
+  outline:
+    image: outlinewiki/outline:0.67.2
     command: sh -c "yarn db:migrate --env production-ssl-disabled && yarn start"
     environment:
       - DATABASE_URL=postgres://postgres:password@65.1.12.130:5432/postgres
       - DATABASE_URL_TEST=postgres://postgres:password@65.1.12.130:5432/postgres
-      - REDIS_URL=redis://wk-redis:6379
+      - REDIS_URL=redis://redis:6379
       - AWS_S3_UPLOAD_BUCKET_NAME=outline-doc-aws-bucket
     env_file:
       - ./env.outline
     restart: always
-    depends_on:
-      - wk-redis
-    networks:
-      - outlinewiki
-  wk-nginx:
-    image: nginx
     ports:
-      - ${HTTP_IP}:${HTTP_PORT_IP}:80
-    volumes:
-      - ./config/nginx/:/etc/nginx/conf.d/:ro
-      - ./data/uc/static_root:/uc/static_root:ro
-    restart: always
+      - 80:3000
     depends_on:
-      - wk-outline
+      - redis
     networks:
       - outlinewiki
+
 networks:
   outlinewiki:
-    external: ${NETWORKS_EXTERNAL}
+    external: false
