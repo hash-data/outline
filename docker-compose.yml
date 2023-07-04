@@ -10,10 +10,10 @@ services:
     image: outlinewiki/outline:0.67.2
     command: sh -c "yarn db:migrate --env production-ssl-disabled && yarn start"
     environment:
-      - DATABASE_URL=postgres://postgres:password@65.1.12.130:5432/postgres
-      - DATABASE_URL_TEST=postgres://postgres:password@65.1.12.130:5432/postgres
+      - DATABASE_URL=postgres://xxx:xxx@x.x.xx.xx:5432/postgres
+      - DATABASE_URL_TEST=postgres://xx:xx@xx.1.xx.x:5432/postgres
       - REDIS_URL=redis://redis:6379
-      - AWS_S3_UPLOAD_BUCKET_NAME=outline-doc-aws-bucket
+      - AWS_S3_UPLOAD_BUCKET_NAME=xx-xx-xx-xxx
     env_file:
       - ./env.outline
     restart: always
